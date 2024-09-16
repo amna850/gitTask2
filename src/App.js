@@ -35,12 +35,13 @@ function App() {
       prevIndex === catalogs.length - 1 ? 0 : prevIndex + 1
     )
   }
+
+  // Function to handle going to the previous slide
   const goToPrevSlide = () => {
     setActiveIndex((prevIndex) =>
       prevIndex === 0 ? catalogs.length - 1 : prevIndex - 1
     )
   }
-
 
   return (
     <Fragment>
@@ -53,11 +54,15 @@ function App() {
               <button
                 className='icon-only outlined'
                 data-testid='prev-slide-btn'
-                onClick={goToPrevSlide}
+                onClick={goToPrevSlide} // Call goToPrevSlide on click
               >
                 <i className='material-icons'>arrow_back</i>
               </button>
-              <Thumbs items={catalogs} currentIndex={activeIndex} />
+              <Thumbs
+                items={catalogs}
+                currentIndex={activeIndex}
+                setActiveIndex={setActiveIndex} // Pass setActiveIndex to Thumbs
+              />
               <button
                 className='icon-only outlined'
                 data-testid='next-slide-btn'

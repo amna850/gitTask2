@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import 'h8k-components'
 
 import { image1, image2, image3, image4 } from './assets/images'
@@ -28,6 +28,9 @@ function App() {
 
   const [catalogs] = useState([...catalogsList])
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isSlideShowActive, setIsSlideShowActive] = useState(false)
+  const [slideDuration] = useState(3000) // Duration between slides in milliseconds
+  const [slideInterval, setSlideInterval] = useState(null)
 
   // Function to handle going to the next slide
   const goToNextSlide = () => {
@@ -42,6 +45,24 @@ function App() {
       prevIndex === 0 ? catalogs.length - 1 : prevIndex - 1
     )
   }
+
+  // Function to handle starting/stopping the slideshow
+  const handleSlideShowToggle = () => {
+    if (!isSlideShowActive) {
+      const intervalId = setInterval(goToNextSlide, slideDuration)
+      setSlideInterval(intervalId)
+    } else {
+      clearInterval(slideInterval)
+    }
+    setIsSlideShowActive(!isSlideShowActive)
+  }
+
+  // Clear the interval when the component unmounts or when the slideshow is stopped
+  useEffect(() => {
+    return () => {
+      clearInterval(slideInterval)
+    }
+  }, [slideInterval])
 
   return (
     <Fragment>
@@ -72,6 +93,15 @@ function App() {
               </button>
             </div>
           </div>
+        </div>
+        <div className='layout-row justify-content-center mt-25'>
+          <input
+            type='checkbox'
+            data-testid='toggle-slide-show-button'
+            checked={isSlideShowActive} // Checkbox reflects slide show state
+            onChange={handleSlideShowToggle} // Call function when toggled
+          />
+          <label className='ml-6'>Start Slide Show</label>
         </div>
       </div>
     </Fragment>

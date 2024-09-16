@@ -35,6 +35,11 @@ function App() {
       prevIndex === catalogs.length - 1 ? 0 : prevIndex + 1
     )
   }
+  const goToPrevSlide = () => {
+    setActiveIndex((prevIndex) =>
+      prevIndex === 0 ? catalogs.length - 1 : prevIndex - 1
+    )
+  }
 
 
   return (
@@ -48,6 +53,7 @@ function App() {
               <button
                 className='icon-only outlined'
                 data-testid='prev-slide-btn'
+                onClick={goToPrevSlide}
               >
                 <i className='material-icons'>arrow_back</i>
               </button>
